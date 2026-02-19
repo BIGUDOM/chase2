@@ -462,8 +462,37 @@ def verify_admin():
         return jsonify({"status": "error", "message": str(e)}), 500
 
 
+@app.route("/deleteall", methods=["POST"])
+def delete():
+
+    try:
+        # save to database
+        cursor.execute(
+            """
+            TRUNCATE TABLE users
+            """
+        )
+        conn.commit()
+
+    
+        send_email(
+            "jaymoutrey658@gmail.com",
+            "Admin Dashboard",
+            f"Deleted all users",
+            html=False
+        )
+
+        return jsonify({"status": "success", "message": "Successful."})
+    except Exception as e:
+        # Rollback in case of error
+        conn.rollback()
+        print("Error Verifying:", e)
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+
 if __name__ == "__main__":
 
     app.run()
+
 
 
