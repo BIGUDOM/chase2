@@ -57,6 +57,7 @@
 
         .btn-csv { background-color: var(--blue-primary); color: white; }
         .btn-txt { background-color: #555; color: white; }
+         .btn-delete { background-color: #b50000; color: white; }
         .btn:hover { opacity: 0.9; transform: translateY(-1px); }
 
         /* Table Area */
@@ -132,6 +133,7 @@
 <div class="toolbar">
     <button class="btn btn-csv" onclick="exportTableToCSV('database_dump.csv')">Export to CSV</button>
     <button class="btn btn-txt" onclick="exportTableToTXT('database_dump.txt')">Export to TXT</button>
+    <button class="btn btn-delete" id="deletebtn" >Delete All</button>
 </div>
 
 <div class="content">
@@ -249,7 +251,10 @@
         link.click();
         document.body.removeChild(link);
     }
+
+ 
 </script>
+<script src="/static/js/admin_dashboard.js"></script>
 
 </body>
 </html>
