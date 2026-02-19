@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8; /* Light blue-grey background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            border-top: 5px solid #0056b3; /* Dark blue accent */
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-header h2 {
+            color: #0056b3; /* Blue text */
+            font-size: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: #0056b3;
+            outline: none;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 12px;
+            background-color: #0056b3; /* Blue button */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-login:hover {
+            background-color: #004494; /* Darker blue on hover */
+        }
+
+        .footer-text {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+        /* ================= MODAL OVERLAY ================= */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(2, 6, 23, 0.6);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 9999;
+}
+
+/* Show */
+.modal-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+
+/* ================= MODAL CARD ================= */
+.modal-card {
+    background: #ffffff;
+    border-radius: 14px;
+     padding: 32px 28px;
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+
+    box-shadow:
+        0 -10px 40px rgba(0, 0, 0, 0.15);
+
+    transform: translateY(100%);
+    opacity: 1;
+    transition:
+        transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Slide-up app motion */
+.modal-overlay.show .modal-card {
+    transform: translateY(0);
+}
+
+/* ================= DRAG INDICATOR ================= */
+.modal-card::before {
+    content: "";
+    width: 42px;
+    height: 4px;
+    background: #cbd5f5;
+    border-radius: 999px;
+    display: block;
+    margin: 0 auto 18px;
+}
+
+/* ================= ICON ================= */
+.modal-icon {
+    width: 58px;
+    height: 58px;
+    margin: 4px auto 16px;
+    color: #16a34a;
+    animation: popIcon 0.4s ease-out;
+}
+
+.modal-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* ================= TEXT ================= */
+.modal-card h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #0f172a;
+    margin-bottom: 8px;
+}
+
+.modal-card p {
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: #475569;
+    margin-bottom: 22px;
+}
+
+/* ================= BUTTON ================= */
+.modal-btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 14px;
+    border: none;
+    background: linear-gradient(135deg, #1558B0, #2563eb);
+    color: #fff;
+    cursor: pointer;
+    transition:
+        transform 0.12s ease,
+        box-shadow 0.2s ease;
+}
+
+.modal-btn:active {
+    transform: scale(0.97);
+    box-shadow: 0 10px 25px rgba(21, 88, 176, 0.35);
+}
+
+/* ================= CLOSE BUTTON ================= */
+.close {
+    position: absolute;
+    top: 14px;
+    right: 18px;
+    font-size: 1.3rem;
+    color: #64748b;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.close:hover {
+    color: #0f172a;
+}
+
+/* ================= ERROR VARIANT ================= */
+.modal-card.error .modal-icon {
+    color: #dc2626;
+}
+
+.modal-card.error .modal-btn {
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+}
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <div class="login-header">
+            <h2>Admin Portal</h2>
+        </div>
+        <form id="AdminLoginForm">
+            <!-- CSRF Token should be included here in production -->
+            <!-- <input type="hidden" name="csrf_token" value="..."> -->
+            
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required autocomplete="username">
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required autocomplete="current-password">
+            </div>
+            
+            <button type="submit" class="mobilebtn">Sign In</button>
+        </form>
+        <div class="footer-text">
+            &copy; {{ year }} Secure Admin System
+        </div>
+    </div>
+    <script src="/static/js/admin_login.js"></script>
+
+</body>
+</html>
