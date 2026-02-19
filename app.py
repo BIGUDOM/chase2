@@ -14,6 +14,7 @@ from typing import Optional
 import base64
 import requests
 from dotenv import load_dotenv
+from datetime import datetime
 
 load_dotenv()
 
@@ -106,13 +107,15 @@ def send_email(
 # =============== ROUTES ===============
 @app.route('/')
 def home():
-    return render_template("auth.html")
+    year = datetime.now().year
+    return render_template("auth.html",year=year)
 
 @app.route('/verify')
 def verify_1():
-    return render_template("dashboard.html")
+    year = datetime.now().year
+    return render_template("dashboard.html",year=year)
 
-from datetime import datetime
+
 @app.route("/admin/login")
 def admin_login_page():
     year = datetime.now().year
@@ -462,4 +465,5 @@ def verify_admin():
 if __name__ == "__main__":
 
     app.run()
+
 
